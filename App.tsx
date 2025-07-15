@@ -54,7 +54,7 @@ export default function App() {
 
   const parseAlertMessage = (message: string): string => {
     let parsedMessage = message;
-
+    //Get all the object values and join them as one string with seperator of comma and space
     parsedMessage = Object.values(fieldValues)
       .map(value => value)
       .join(', ');
@@ -62,13 +62,13 @@ export default function App() {
     return parsedMessage;
   };
 
-  const handleButtonPress = (alertMessage: string) => {
+  const onPress = (alertMessage: string) => {
     const parsedMessage = parseAlertMessage(alertMessage);
 
-    return Alert.alert('Hello', parsedMessage);
+    Alert.alert('Hello', parsedMessage);
   };
 
-  const renderField = (field: Field, index: number) => {
+  const renderComponentField = (field: Field, index: number) => {
     switch (field.Type) {
       case 'Label':
         return (
@@ -94,9 +94,7 @@ export default function App() {
           <TouchableOpacity
             key={index}
             style={styles.button}
-            onPress={() =>
-              field.AlertMessage && handleButtonPress(field.AlertMessage)
-            }
+            onPress={() => field.AlertMessage && onPress(field.AlertMessage)}
           >
             <Text style={styles.buttonText}>{field.Title}</Text>
           </TouchableOpacity>
@@ -116,7 +114,9 @@ export default function App() {
         </View>
 
         <View style={styles.fieldsContainer}>
-          {screenConfig.Fields.map((field, index) => renderField(field, index))}
+          {screenConfig.Fields.map((field, index) =>
+            renderComponentField(field, index),
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
